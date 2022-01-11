@@ -1,20 +1,9 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Header } from '../components/Header';
 
 export default function Home() {
   return (
-    <Flex flexDirection="column">
-      <Text bg="blue" _even={{ bg: 'red' }}>
-        Home
-      </Text>
-      <Text bg="blue" _even={{ bg: 'red' }}>
-        Home
-      </Text>
-      <Text bg="blue" _even={{ bg: 'red' }}>
-        Home
-      </Text>
-      <Text bg="blue" _even={{ bg: 'red' }}>
-        Home
-      </Text>
-    </Flex>
+    <>
+      <Header />
+    </>
   );
 }

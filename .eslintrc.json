@@ -33,10 +33,9 @@
     "react/jsx-no-bind": 0,
     "jsx-a11y/label-has-associated-control": 0,
     "@next/next/no-document-import-in-page": "off",
-
     "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "off",
     "react/jsx-filename-extension": [
       1,
       {
