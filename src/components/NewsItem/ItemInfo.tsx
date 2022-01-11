@@ -1,14 +1,32 @@
 import { Button, Flex, Text } from '@chakra-ui/react';
 
-export function ItemInfo() {
+type ItemInfoProps = {
+  title: string;
+  publishedAt: string;
+  newsSite: string;
+  summary: string;
+};
+
+export function ItemInfo({
+  title,
+  publishedAt,
+  newsSite,
+  summary,
+}: ItemInfoProps) {
   return (
     <Flex direction="column" w="60%">
       <Flex justify="flex-start" width="100%" direction="column">
         <Text as="h3" fontSize={22} fontWeight="bold" color="blue.900">
-          Tenete ergo quod si servitus
+          {title}
         </Text>
         <Flex justify="space-between" align="center">
-          <Text fontSize={14}>dd/mm/yyyy</Text>
+          <Text fontSize={14}>
+            {new Date(publishedAt).toLocaleDateString('pt-BR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}
+          </Text>
           <Text
             px={2}
             bg="gray.200"
@@ -17,13 +35,11 @@ export function ItemInfo() {
             borderColor="gray.700"
             fontSize={15}
           >
-            newsSite
+            {newsSite}
           </Text>
         </Flex>
         <Text fontSize={18} my={1}>
-          Velit irure non id velit enim aliqua minim do cupidatat occaecat
-          laboris duis non est. Tempor reprehenderit est commodo laboris
-          pariatur velit incididunt qui aute dolore
+          {summary}
         </Text>
       </Flex>
       <Button

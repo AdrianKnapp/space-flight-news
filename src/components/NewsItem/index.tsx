@@ -2,19 +2,38 @@ import { Flex } from '@chakra-ui/react';
 import { ItemImage } from './ItemImage';
 import { ItemInfo } from './ItemInfo';
 
-export function NewsItem() {
+type NewsItemProps = {
+  title: string;
+  imageUrl: string;
+  newsSite: string;
+  summary: string;
+  publishedAt: string;
+};
+
+export function NewsItem({
+  title,
+  imageUrl,
+  newsSite,
+  summary,
+  publishedAt,
+}: NewsItemProps) {
   return (
     <Flex
       justify="space-between"
       _even={{ flexDirection: 'row-reverse' }}
       gap={12}
       width="100%"
-      maxWidth={700}
+      maxWidth={750}
       mx="auto"
       mb={12}
     >
-      <ItemImage />
-      <ItemInfo />
+      <ItemImage title={title} imageUrl={imageUrl} />
+      <ItemInfo
+        title={title}
+        publishedAt={publishedAt}
+        newsSite={newsSite}
+        summary={summary}
+      />
     </Flex>
   );
 }
