@@ -36,6 +36,9 @@ export function ItemInfo() {
         _hover={{
           filter: 'brightness(.8)',
         }}
+        _focus={{
+          boxShadow: 'none',
+        }}
       >
         Ver Mais
       </Button>

@@ -1,4 +1,5 @@
 import { Header } from '../components/Header';
+import { LoadMoreButton } from '../components/LoadMoreButton';
 import { NewsItem } from '../components/NewsItem';
 
 export default function Home() {
@@ -9,6 +10,7 @@ export default function Home() {
       <NewsItem />
       <NewsItem />
       <NewsItem />
+      <LoadMoreButton />
     </>
   );
 }
