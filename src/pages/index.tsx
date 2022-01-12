@@ -26,48 +26,47 @@ type HomeProps = {
 export default function Home({ articles }: HomeProps) {
   const router = useRouter();
   const [articlesList, setArticlesList] = useState(articles);
-  const [activeSearch, setActiveSearch] = useState('');
+  const [currentUrlToRequest, setCurrentUrlToRequest] = useState(
+    'articles?_limit=10&title_contains=&_start=',
+  );
 
   function orderListBy(order: string) {
     const originalList = [...articlesList];
 
-    if (order === 'ASC') {
-      const orderASC = originalList.sort((dateA, dateB) => {
-        const DateTimeA = new Date(dateA.publishedAt).getTime();
-        const DateTimeB = new Date(dateB.publishedAt).getTime();
+    const orderedList = originalList.sort((dateA, dateB) => {
+      const DateTimeA = new Date(dateA.publishedAt).getTime();
+      const DateTimeB = new Date(dateB.publishedAt).getTime();
 
-        return DateTimeA - DateTimeB;
-      });
+      return order === 'ASC' ? DateTimeA - DateTimeB : DateTimeB - DateTimeA;
+    });
 
-      setArticlesList(orderASC);
-    } else {
-      const orderDESC = originalList.sort((dateA, dateB) => {
-        const DateTimeA = new Date(dateA.publishedAt).getTime();
-        const DateTimeB = new Date(dateB.publishedAt).getTime();
-
-        return DateTimeB - DateTimeA;
-      });
-
-      setArticlesList(orderDESC);
-    }
+    setArticlesList(orderedList);
   }
 
-  async function handleSearchArticles(searchText: string) {
-    const { data } = await api.get(
-      `articles?_limit=10&title_contains=${searchText}`,
-    );
-    setArticlesList(data);
-    setActiveSearch(searchText);
+  async function handleSearchArticles(url: string, urlHasPagination: boolean) {
+    const { data } = await api.get(url);
+
+    if (urlHasPagination) {
+      setArticlesList([...articlesList, ...data]);
+    } else {
+      setArticlesList(data);
+    }
   }
 
   useEffect(() => {
     if (router.isReady) {
-      const { order } = router.query;
-      const { search } = router.query;
+      const { order, _start, title_contains: search } = router.query;
+      const urlHasPagination = !!_start;
 
-      if (search && activeSearch !== search) {
-        handleSearchArticles(String(search));
+      const urlToRequest = `articles?_limit=10&title_contains=${
+        search || ''
+      }&_start=${_start || ''}`;
+
+      if (currentUrlToRequest !== urlToRequest) {
+        setCurrentUrlToRequest(urlToRequest);
+        handleSearchArticles(urlToRequest, urlHasPagination);
       }
+
       if (order && order.length > 0) {
         orderListBy(String(order));
       }
