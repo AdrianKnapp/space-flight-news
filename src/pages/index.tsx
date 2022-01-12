@@ -26,6 +26,7 @@ type HomeProps = {
 export default function Home({ articles }: HomeProps) {
   const router = useRouter();
   const [articlesList, setArticlesList] = useState(articles);
+  const [activeSearch, setActiveSearch] = useState('');
 
   function orderListBy(order: string) {
     const originalList = [...articlesList];
@@ -51,9 +52,22 @@ export default function Home({ articles }: HomeProps) {
     }
   }
 
+  async function handleSearchArticles(searchText: string) {
+    const { data } = await api.get(
+      `articles?_limit=10&title_contains=${searchText}`,
+    );
+    setArticlesList(data);
+    setActiveSearch(searchText);
+  }
+
   useEffect(() => {
     if (router.isReady) {
       const { order } = router.query;
+      const { search } = router.query;
+
+      if (search && activeSearch !== search) {
+        handleSearchArticles(String(search));
+      }
       if (order && order.length > 0) {
         orderListBy(String(order));
       }
@@ -79,7 +93,7 @@ export default function Home({ articles }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await api.get('/articles?_limit=10');
+  const response = await api.get('articles?_limit=10');
 
   return {
     props: {

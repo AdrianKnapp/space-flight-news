@@ -20,6 +20,7 @@ export function NewsItem({
   return (
     <Flex
       justify="space-between"
+      align="center"
       _even={{ flexDirection: 'row-reverse' }}
       gap={12}
       width="100%"
