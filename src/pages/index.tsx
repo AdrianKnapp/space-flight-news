@@ -75,7 +75,7 @@ export default function Home({ articles }: HomeProps) {
   }, [router]);
 
   useEffect(() => {
-    if(currentPage) searchArticles(currentSearchParam);
+    if (currentPage) searchArticles(currentSearchParam);
   }, [currentPage]);
 
   return (
