@@ -39,6 +39,7 @@ export default function Home({ articles }: HomeProps) {
 
       return order === 'ASC' ? DateTimeA - DateTimeB : DateTimeB - DateTimeA;
     });
+
     setArticlesList(orderedList);
   }
 
@@ -74,7 +75,7 @@ export default function Home({ articles }: HomeProps) {
   }, [router]);
 
   useEffect(() => {
-    searchArticles(currentSearchParam);
+    if(currentPage) searchArticles(currentSearchParam);
   }, [currentPage]);
 
   return (
