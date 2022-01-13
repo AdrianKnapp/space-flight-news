@@ -15,11 +15,11 @@ export function SortDropdown() {
   const sortOptions = [
     {
       text: 'Mais antigas',
-      order: 'ASC',
+      order: 'asc',
     },
     {
       text: 'Mais novas',
-      order: 'DESC',
+      order: 'desc',
     },
   ];
 

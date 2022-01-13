@@ -29,26 +29,25 @@ export default function Home({ articles }: HomeProps) {
   const [articlesList, setArticlesList] = useState(articles);
   const [currentPage, setCurrentPage] = useState(0);
   const [currentSearchParam, setCurrentSearchParam] = useState('');
-
-  function orderList(order: string) {
-    const originalList = [...articlesList];
-
-    const orderedList = originalList.sort((dateA, dateB) => {
-      const DateTimeA = new Date(dateA.publishedAt).getTime();
-      const DateTimeB = new Date(dateB.publishedAt).getTime();
-
-      return order === 'ASC' ? DateTimeA - DateTimeB : DateTimeB - DateTimeA;
-    });
-
-    setArticlesList(orderedList);
-  }
+  const [currentOrderParam, setCurrentOrderParam] = useState('');
 
   async function searchArticles(searchQuery: string) {
-    const urlToQuery = `articles?_limit=10&title_contains=${searchQuery}&_start=${currentPage}`;
-
+    const urlQueryParamOrder = currentOrderParam
+      ? `publishedAt:${currentOrderParam}`
+      : '';
+    const urlToQuery = `articles?_limit=10&title_contains=${searchQuery}&_start=${currentPage}&_sort=${urlQueryParamOrder}`;
     const { data } = await api.get(urlToQuery);
+
     if (currentPage) {
-      setArticlesList([...articlesList, ...data]);
+      const newArticlesList = [...articlesList, ...data];
+
+      const removeDuplicatedItems = newArticlesList.filter(
+        (value, index, self) =>
+          // eslint-disable-next-line implicit-arrow-linebreak
+          index === self.findIndex((t) => t.id === value.id),
+      );
+
+      setArticlesList(removeDuplicatedItems);
     } else {
       setArticlesList([...data]);
     }
@@ -64,7 +63,11 @@ export default function Home({ articles }: HomeProps) {
     const searchParam = search ? String(search) : '';
 
     if (orderParam) {
-      orderList(orderParam);
+      setCurrentOrderParam(orderParam);
+
+      if (currentOrderParam && currentOrderParam !== orderParam) {
+        setArticlesList([]);
+      }
     }
 
     if (searchParam !== currentSearchParam) {
@@ -75,8 +78,8 @@ export default function Home({ articles }: HomeProps) {
   }, [router]);
 
   useEffect(() => {
-    if (currentPage) searchArticles(currentSearchParam);
-  }, [currentPage]);
+    if (currentPage || currentOrderParam) searchArticles(currentSearchParam);
+  }, [currentPage, currentOrderParam]);
 
   return (
     <>
