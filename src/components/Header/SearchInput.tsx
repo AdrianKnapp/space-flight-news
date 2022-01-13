@@ -8,8 +8,8 @@ export function SearchInput() {
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    if (router.isReady && router.query.title_contains) {
-      setSearchText(String(router.query.title_contains));
+    if (router.isReady && router.query.search) {
+      setSearchText(String(router.query.search));
     }
   }, [router]);
 
@@ -20,7 +20,7 @@ export function SearchInput() {
       router.push({
         query: {
           ...router.query,
-          title_contains: searchText,
+          search: searchText,
         },
       });
     }

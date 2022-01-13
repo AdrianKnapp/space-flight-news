@@ -25,12 +25,12 @@ type HomeProps = {
 
 export default function Home({ articles }: HomeProps) {
   const router = useRouter();
-  const [articlesList, setArticlesList] = useState(articles);
-  const [currentUrlToRequest, setCurrentUrlToRequest] = useState(
-    'articles?_limit=10&title_contains=&_start=',
-  );
 
-  function orderListBy(order: string) {
+  const [articlesList, setArticlesList] = useState(articles);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [currentSearchParam, setCurrentSearchParam] = useState('');
+
+  function orderList(order: string) {
     const originalList = [...articlesList];
 
     const orderedList = originalList.sort((dateA, dateB) => {
@@ -39,39 +39,43 @@ export default function Home({ articles }: HomeProps) {
 
       return order === 'ASC' ? DateTimeA - DateTimeB : DateTimeB - DateTimeA;
     });
-
     setArticlesList(orderedList);
   }
 
-  async function handleSearchArticles(url: string, urlHasPagination: boolean) {
-    const { data } = await api.get(url);
+  async function searchArticles(searchQuery: string) {
+    const urlToQuery = `articles?_limit=10&title_contains=${searchQuery}&_start=${currentPage}`;
 
-    if (urlHasPagination) {
+    const { data } = await api.get(urlToQuery);
+    if (currentPage) {
       setArticlesList([...articlesList, ...data]);
     } else {
-      setArticlesList(data);
+      setArticlesList([...data]);
     }
   }
 
   useEffect(() => {
-    if (router.isReady) {
-      const { order, _start, title_contains: search } = router.query;
-      const urlHasPagination = !!_start;
+    // eslint-disable-next-line no-useless-return
+    if (!router.isReady) return;
 
-      const urlToRequest = `articles?_limit=10&title_contains=${
-        search || ''
-      }&_start=${_start || ''}`;
+    const { order, search } = router.query;
 
-      if (currentUrlToRequest !== urlToRequest) {
-        setCurrentUrlToRequest(urlToRequest);
-        handleSearchArticles(urlToRequest, urlHasPagination);
-      }
+    const orderParam = order ? String(order) : '';
+    const searchParam = search ? String(search) : '';
 
-      if (order && order.length > 0) {
-        orderListBy(String(order));
-      }
+    if (orderParam) {
+      orderList(orderParam);
+    }
+
+    if (searchParam !== currentSearchParam) {
+      setCurrentPage(0);
+      searchArticles(searchParam);
+      setCurrentSearchParam(searchParam);
     }
   }, [router]);
+
+  useEffect(() => {
+    searchArticles(currentSearchParam);
+  }, [currentPage]);
 
   return (
     <>
@@ -86,7 +90,10 @@ export default function Home({ articles }: HomeProps) {
           publishedAt={article.publishedAt}
         />
       ))}
-      <LoadMoreButton />
+      <LoadMoreButton
+        handleCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+      />
     </>
   );
 }
