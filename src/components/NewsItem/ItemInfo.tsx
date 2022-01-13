@@ -14,12 +14,12 @@ export function ItemInfo({
   summary,
 }: ItemInfoProps) {
   return (
-    <Flex direction="column" w="60%">
+    <Flex direction="column" w={['100%', '100%', '60%']}>
       <Flex justify="flex-start" width="100%" direction="column">
         <Text as="h3" fontSize={22} fontWeight="bold" color="blue.900">
           {title}
         </Text>
-        <Flex justify="space-between" align="center">
+        <Flex justify="space-between" align="center" my={1}>
           <Text fontSize={14}>
             {new Date(publishedAt).toLocaleDateString('pt-BR', {
               day: '2-digit',

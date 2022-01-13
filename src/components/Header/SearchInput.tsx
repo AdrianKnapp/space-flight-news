@@ -3,13 +3,19 @@ import { FormEvent, useEffect, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 
-export function SearchInput() {
+type SearchInputProps = {
+  isLoading: boolean;
+};
+
+export function SearchInput({ isLoading }: SearchInputProps) {
   const router = useRouter();
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     if (router.isReady && router.query.search) {
       setSearchText(String(router.query.search));
+    } else {
+      setSearchText('');
     }
   }, [router]);
 
@@ -23,6 +29,10 @@ export function SearchInput() {
           search: searchText,
         },
       });
+    } else {
+      router.push({
+        pathname: '/',
+      });
     }
   }
 
@@ -35,7 +45,8 @@ export function SearchInput() {
       borderColor="gray.200"
       borderRadius={5}
       overflow="hidden"
-      height={10}
+      height={12}
+      p={1}
       onSubmit={(event) => handleSearch(event)}
     >
       <Input
@@ -49,6 +60,7 @@ export function SearchInput() {
         color="gray.700"
         value={searchText || ''}
         onChange={(event) => setSearchText(event.target.value)}
+        isDisabled={isLoading}
       />
       <IconButton
         aria-label="Search"
@@ -59,10 +71,10 @@ export function SearchInput() {
         display="flex"
         alignItems="center"
         justifyContent="center"
-        borderRadius={0}
+        borderRadius={5}
         width={50}
         height="100%"
-        bg="gray.200"
+        bg="gray.700"
         color="white"
         transition=".2s"
         _focus={{
@@ -71,6 +83,7 @@ export function SearchInput() {
         _hover={{
           filter: 'brightness(.8)',
         }}
+        isLoading={isLoading}
       />
     </Flex>
   );

@@ -5,11 +5,13 @@ type LoadMoreButtonProps = {
   // eslint-disable-next-line no-unused-vars
   handleCurrentPage: (page: number) => void;
   currentPage: number;
+  isLoading: boolean;
 };
 
 export function LoadMoreButton({
   handleCurrentPage,
   currentPage,
+  isLoading,
 }: LoadMoreButtonProps) {
   return (
     <Flex direction="column" mx="auto" w="min-content">
@@ -34,6 +36,7 @@ export function LoadMoreButton({
           boxShadow: 'none',
         }}
         onClick={() => handleCurrentPage(currentPage + 10)}
+        isLoading={isLoading}
       >
         Carregar mais
       </Button>

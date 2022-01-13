@@ -2,7 +2,11 @@ import { Flex } from '@chakra-ui/react';
 import { Logo } from './Logo';
 import { SearchBox } from './SearchBox';
 
-export function Header() {
+type HeaderProps = {
+  isLoading: boolean;
+};
+
+export function Header({ isLoading }: HeaderProps) {
   return (
     <Flex
       as="header"
@@ -14,7 +18,7 @@ export function Header() {
       borderColor="gray.200"
       mb={12}
     >
-      <SearchBox />
+      <SearchBox isLoading={isLoading} />
       <Logo />
     </Flex>
   );

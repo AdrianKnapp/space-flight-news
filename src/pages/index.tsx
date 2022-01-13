@@ -3,10 +3,11 @@ import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
+import { Text } from '@chakra-ui/react';
 import { Header } from '../components/Header';
 import { LoadMoreButton } from '../components/LoadMoreButton';
 import { NewsItem } from '../components/NewsItem';
-
+import { BackToTopButton } from '../components/BackToTopButton';
 import api from '../services/api';
 
 type Article = {
@@ -30,26 +31,43 @@ export default function Home({ articles }: HomeProps) {
   const [currentPage, setCurrentPage] = useState(0);
   const [currentSearchParam, setCurrentSearchParam] = useState('');
   const [currentOrderParam, setCurrentOrderParam] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [articlesNotFound, setArticlesNotFound] = useState(false);
 
   async function searchArticles(searchQuery: string) {
-    const urlQueryParamOrder = currentOrderParam
+    const orderUrlQueryParam = currentOrderParam
       ? `publishedAt:${currentOrderParam}`
       : '';
-    const urlToQuery = `articles?_limit=10&title_contains=${searchQuery}&_start=${currentPage}&_sort=${urlQueryParamOrder}`;
-    const { data } = await api.get(urlToQuery);
+    const urlToQuery = `articles?_limit=10&title_contains=${searchQuery}&_start=${currentPage}&_sort=${orderUrlQueryParam}`;
 
-    if (currentPage) {
-      const newArticlesList = [...articlesList, ...data];
+    setIsLoading(true);
+    try {
+      const { data } = await api.get(urlToQuery);
 
-      const removeDuplicatedItems = newArticlesList.filter(
-        (value, index, self) =>
-          // eslint-disable-next-line implicit-arrow-linebreak
-          index === self.findIndex((t) => t.id === value.id),
-      );
+      if (!data.length) {
+        setArticlesNotFound(true);
+        return;
+      }
+      setArticlesNotFound(false);
 
-      setArticlesList(removeDuplicatedItems);
-    } else {
-      setArticlesList([...data]);
+      if (currentPage) {
+        const newArticlesList = [...articlesList, ...data];
+
+        const removeDuplicatedItems = newArticlesList.filter(
+          (value, index, self) =>
+            // eslint-disable-next-line implicit-arrow-linebreak
+            index === self.findIndex((t) => t.id === value.id),
+        );
+
+        setArticlesList(removeDuplicatedItems);
+      } else {
+        setArticlesList([...data]);
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -83,21 +101,37 @@ export default function Home({ articles }: HomeProps) {
 
   return (
     <>
-      <Header />
-      {articlesList.map((article) => (
-        <NewsItem
-          key={article.id}
-          title={article.title}
-          imageUrl={article.imageUrl}
-          newsSite={article.newsSite}
-          summary={article.summary}
-          publishedAt={article.publishedAt}
-        />
-      ))}
-      <LoadMoreButton
-        handleCurrentPage={setCurrentPage}
-        currentPage={currentPage}
-      />
+      <Header isLoading={isLoading} />
+      {!articlesNotFound ? (
+        <>
+          {articlesList.map((article) => (
+            <NewsItem
+              key={article.id}
+              title={article.title}
+              imageUrl={article.imageUrl}
+              newsSite={article.newsSite}
+              summary={article.summary}
+              publishedAt={article.publishedAt}
+            />
+          ))}
+          <LoadMoreButton
+            handleCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+            isLoading={isLoading}
+          />
+        </>
+      ) : (
+        <Text
+          as="h3"
+          fontWeight="bold"
+          textAlign="center"
+          fontSize={24}
+          color="gray.700"
+        >
+          Articles not found.
+        </Text>
+      )}
+      <BackToTopButton />
     </>
   );
 }

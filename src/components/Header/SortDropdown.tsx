@@ -49,8 +49,8 @@ export function SortDropdown() {
       <MenuButton
         as={Button}
         rightIcon={<HiSelector />}
-        height={10}
-        minWidth={120}
+        height={12}
+        maxWidth={170}
         border="2px"
         borderColor="gray.200"
         color="gray.700"
