@@ -1,4 +1,5 @@
-import { Button, Flex, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
+import { ItemButton } from './ItemButton';
 
 type ItemInfoProps = {
   title: string;
@@ -6,6 +7,7 @@ type ItemInfoProps = {
   newsSite: string;
   summary: string;
   setActiveArticle: () => void;
+  isInModal: boolean;
 };
 
 export function ItemInfo({
@@ -14,6 +16,7 @@ export function ItemInfo({
   newsSite,
   summary,
   setActiveArticle,
+  isInModal,
 }: ItemInfoProps) {
   return (
     <Flex direction="column" w={['100%', '100%', '60%']}>
@@ -40,27 +43,9 @@ export function ItemInfo({
             {newsSite}
           </Text>
         </Flex>
-        <Text fontSize={18} my={1}>
-          {summary}
-        </Text>
+        <Text fontSize={18}>{summary}</Text>
       </Flex>
-      <Button
-        width="min-content"
-        fontWeight="regular"
-        borderRadius="5px"
-        bg="orange.900"
-        color="white"
-        transition=".2s"
-        _hover={{
-          filter: 'brightness(.8)',
-        }}
-        _focus={{
-          boxShadow: 'none',
-        }}
-        onClick={setActiveArticle}
-      >
-        Ver Mais
-      </Button>
+      {!isInModal && <ItemButton setActiveArticle={setActiveArticle} />}
     </Flex>
   );
 }

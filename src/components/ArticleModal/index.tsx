@@ -43,8 +43,8 @@ export function ArticleModal({
           display="flex"
           mx={5}
         >
-          <ModalBody>
-            <ArticleItem article={article} />
+          <ModalBody display="flex" flexDirection="column" alignItems="center">
+            <ArticleItem article={article} isInModal />
           </ModalBody>
         </ModalContent>
       </Modal>
