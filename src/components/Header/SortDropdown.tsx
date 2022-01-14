@@ -84,10 +84,13 @@ export function SortDropdown() {
             order={option.order}
             onClick={() => activeSortOrder(option)}
             transition=".2s"
+            _focus={{
+              bg: 'white',
+            }}
             _hover={{
               bg: 'white',
               color: 'gray.900',
-              filter: 'brightness(.)',
+              filter: 'brightness(.9)',
             }}
           >
             {option.text}
