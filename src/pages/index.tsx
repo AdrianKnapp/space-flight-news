@@ -110,6 +110,10 @@ export default function Home({ articles }: HomeProps) {
     <>
       <Head>
         <title>Space Flight News</title>
+        <meta
+          name="description"
+          content="If you wanna know about the latest news about space, this is the place to go."
+        />
       </Head>
       <Header isLoading={isLoading} />
       {!articlesNotFound ? (
