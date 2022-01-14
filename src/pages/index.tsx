@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 import { useEffect, useState } from 'react';
 
@@ -107,6 +108,9 @@ export default function Home({ articles }: HomeProps) {
 
   return (
     <>
+      <Head>
+        <title>Space Flight News</title>
+      </Head>
       <Header isLoading={isLoading} />
       {!articlesNotFound ? (
         <>
