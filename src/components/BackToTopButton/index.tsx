@@ -25,8 +25,8 @@ export function BackToTopButton() {
           bg="gray.700"
           borderRadius={100}
           size="lg"
-          width={55}
-          height={55}
+          width="65px"
+          height="65px"
           color="white"
           transition=".2s"
           _focus={{
