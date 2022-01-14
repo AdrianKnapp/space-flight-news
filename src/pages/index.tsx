@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react';
 import { Text } from '@chakra-ui/react';
 import { Header } from '../components/Header';
 import { LoadMoreButton } from '../components/LoadMoreButton';
-import { NewsItem } from '../components/NewsItem';
+import { ArticleItem } from '../components/ArticleItem';
 import { BackToTopButton } from '../components/BackToTopButton';
+import { ArticleModal } from '../components/ArticleModal';
 
 import api from '../services/api';
 
@@ -26,6 +27,10 @@ export default function Home({ articles }: HomeProps) {
   const [currentOrderParam, setCurrentOrderParam] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [articlesNotFound, setArticlesNotFound] = useState(false);
+  const [activeModalArticle, setActiveModalArticle] = useState<Article | null>(
+    null,
+  );
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   async function searchArticles(searchQuery: string) {
     const orderUrlQueryParam = currentOrderParam
@@ -92,18 +97,35 @@ export default function Home({ articles }: HomeProps) {
     if (currentPage || currentOrderParam) searchArticles(currentSearchParam);
   }, [currentPage, currentOrderParam]);
 
+  useEffect(() => {
+    if (activeModalArticle) setModalIsOpen(true);
+  }, [activeModalArticle]);
+
+  useEffect(() => {
+    if (!modalIsOpen) setActiveModalArticle(null);
+  }, [modalIsOpen]);
+
   return (
     <>
       <Header isLoading={isLoading} />
       {!articlesNotFound ? (
         <>
           {articlesList.map((article) => (
-            <NewsItem key={article.id} article={article} />
+            <ArticleItem
+              key={article.id}
+              article={article}
+              handleActiveModalArticle={setActiveModalArticle}
+            />
           ))}
           <LoadMoreButton
             handleCurrentPage={setCurrentPage}
             currentPage={currentPage}
             isLoading={isLoading}
+          />
+          <ArticleModal
+            article={activeModalArticle}
+            modalIsOpen={modalIsOpen}
+            handleModalIsOpen={setModalIsOpen}
           />
         </>
       ) : (

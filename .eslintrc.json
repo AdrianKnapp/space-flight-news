@@ -26,6 +26,7 @@
       "prettier"
   ],
   "rules": {
+    "react/require-default-props": "off",
     "import/prefer-default-export": "off",
     "react/jsx-props-no-spreading": 0,
     "object-curly-newline": "off",

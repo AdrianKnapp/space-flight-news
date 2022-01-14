@@ -5,6 +5,7 @@ type ItemInfoProps = {
   publishedAt: string;
   newsSite: string;
   summary: string;
+  setActiveArticle: () => void;
 };
 
 export function ItemInfo({
@@ -12,6 +13,7 @@ export function ItemInfo({
   publishedAt,
   newsSite,
   summary,
+  setActiveArticle,
 }: ItemInfoProps) {
   return (
     <Flex direction="column" w={['100%', '100%', '60%']}>
@@ -55,6 +57,7 @@ export function ItemInfo({
         _focus={{
           boxShadow: 'none',
         }}
+        onClick={setActiveArticle}
       >
         Ver Mais
       </Button>
