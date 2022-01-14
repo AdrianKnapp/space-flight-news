@@ -32,16 +32,18 @@ export function ItemInfo({
               year: 'numeric',
             })}
           </Text>
-          <Text
-            px={2}
-            bg="gray.100"
-            color="gray.900"
-            border="2px"
-            borderColor="gray.700"
-            fontSize={15}
-          >
-            {newsSite}
-          </Text>
+          {!isInModal && (
+            <Text
+              px={2}
+              bg="gray.100"
+              color="gray.900"
+              border="2px"
+              borderColor="gray.700"
+              fontSize={15}
+            >
+              {newsSite}
+            </Text>
+          )}
         </Flex>
         <Text fontSize={18}>{summary}</Text>
       </Flex>

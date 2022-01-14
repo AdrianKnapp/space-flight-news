@@ -29,4 +29,6 @@ yarn dev
 
 After that, the project will be running smoothly on your machine.
 
+See the project presentation [here](https://www.loom.com/share/86fbf9dae48c47d3ac91014edaeb3799).
+
 > This is a challenge by [Coodesh](https://coodesh.com/)
