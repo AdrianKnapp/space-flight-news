@@ -49,8 +49,9 @@ export function SortDropdown() {
       <MenuButton
         as={Button}
         rightIcon={<HiSelector />}
-        height={12}
+        height="45px"
         maxWidth={170}
+        minWidth={140}
         border="2px"
         borderColor="gray.200"
         color="gray.700"
@@ -65,6 +66,7 @@ export function SortDropdown() {
         }}
         _expanded={{ bg: 'white', borderColor: 'gray.700' }}
         textAlign="left"
+        borderRadius={3}
       >
         {activeSort}
       </MenuButton>

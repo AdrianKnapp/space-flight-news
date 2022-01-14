@@ -43,9 +43,9 @@ export function SearchInput({ isLoading }: SearchInputProps) {
       width={260}
       border="2px"
       borderColor="gray.200"
-      borderRadius={5}
+      borderRadius={3}
       overflow="hidden"
-      height={12}
+      height="45px"
       p={1}
       onSubmit={(event) => handleSearch(event)}
     >
@@ -65,14 +65,14 @@ export function SearchInput({ isLoading }: SearchInputProps) {
       <IconButton
         aria-label="Search"
         icon={<Icon as={FiSearch} />}
-        fontSize="22"
+        fontSize="18"
         type="submit"
         variant="unstyled"
         display="flex"
         alignItems="center"
         justifyContent="center"
-        borderRadius={5}
-        width={50}
+        borderRadius={0}
+        minWidth="35px"
         height="100%"
         bg="gray.700"
         color="white"

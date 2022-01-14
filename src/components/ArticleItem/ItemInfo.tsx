@@ -34,7 +34,7 @@ export function ItemInfo({
           </Text>
           <Text
             px={2}
-            bg="gray.200"
+            bg="gray.100"
             color="gray.900"
             border="2px"
             borderColor="gray.700"
