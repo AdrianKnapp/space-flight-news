@@ -3,12 +3,16 @@ import { useEffect, useState } from 'react';
 import { HiSelector } from 'react-icons/hi';
 import { useRouter } from 'next/router';
 
+type SortDropdownProps = {
+  isLoading: boolean;
+};
+
 type SortOption = {
   text: string;
   order: string;
 };
 
-export function SortDropdown() {
+export function SortDropdown({ isLoading }: SortDropdownProps) {
   const [activeSort, setActiveSort] = useState('Sort');
   const router = useRouter();
 
@@ -67,6 +71,7 @@ export function SortDropdown() {
         _expanded={{ bg: 'white', borderColor: 'gray.700' }}
         textAlign="left"
         borderRadius={3}
+        isDisabled={isLoading}
       >
         {activeSort}
       </MenuButton>

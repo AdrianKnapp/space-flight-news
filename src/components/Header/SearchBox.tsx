@@ -11,7 +11,7 @@ export function SearchBox({ isLoading }: SearchBoxProps) {
     <Flex justify="flex-end" p={5} w="100%" mx="auto">
       <Stack spacing={4} direction={['column', 'row']} align="flex-end">
         <SearchInput isLoading={isLoading} />
-        <SortDropdown />
+        <SortDropdown isLoading={isLoading} />
       </Stack>
     </Flex>
   );

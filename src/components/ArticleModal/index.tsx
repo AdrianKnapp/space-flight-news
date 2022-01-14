@@ -3,7 +3,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalBody,
-  Button,
   useDisclosure,
 } from '@chakra-ui/react';
 import { Article } from '../../types/Article';
@@ -21,7 +20,7 @@ export function ArticleModal({
   handleModalIsOpen,
   modalIsOpen,
 }: ArticleModalProps) {
-  const { onOpen, onClose } = useDisclosure();
+  const { onClose } = useDisclosure();
 
   return (
     <>
