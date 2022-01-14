@@ -5,7 +5,7 @@ export function Dots() {
     <Box
       width={15}
       height={15}
-      bg="gray.200"
+      bg="gray.100"
       border="2px"
       borderColor="gray.700"
     />

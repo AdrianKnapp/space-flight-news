@@ -21,6 +21,7 @@ export function LoadMoreButton({
         <Dots />
       </Stack>
       <Button
+        borderRadius={3}
         colorScheme="teal"
         variant="outline"
         w="min-content"

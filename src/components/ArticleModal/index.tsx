@@ -25,8 +25,6 @@ export function ArticleModal({
 
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
-
       <Modal
         isOpen={modalIsOpen}
         onClose={() => {
