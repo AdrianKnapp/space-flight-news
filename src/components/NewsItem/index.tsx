@@ -1,22 +1,17 @@
 import { Flex } from '@chakra-ui/react';
+
+import { Article } from '../../types/Article';
+
 import { ItemImage } from './ItemImage';
 import { ItemInfo } from './ItemInfo';
 
 type NewsItemProps = {
-  title: string;
-  imageUrl: string;
-  newsSite: string;
-  summary: string;
-  publishedAt: string;
+  article: Article;
 };
 
-export function NewsItem({
-  title,
-  imageUrl,
-  newsSite,
-  summary,
-  publishedAt,
-}: NewsItemProps) {
+export function NewsItem({ article }: NewsItemProps) {
+  const { title, imageUrl, newsSite, summary, publishedAt } = article;
+
   return (
     <Flex
       justify="space-between"

@@ -8,17 +8,10 @@ import { Header } from '../components/Header';
 import { LoadMoreButton } from '../components/LoadMoreButton';
 import { NewsItem } from '../components/NewsItem';
 import { BackToTopButton } from '../components/BackToTopButton';
+
 import api from '../services/api';
 
-type Article = {
-  id: number;
-  title: string;
-  url: string;
-  imageUrl: string;
-  newsSite: string;
-  summary: string;
-  publishedAt: string;
-};
+import { Article } from '../types/Article';
 
 type HomeProps = {
   articles: Article[];
@@ -105,14 +98,7 @@ export default function Home({ articles }: HomeProps) {
       {!articlesNotFound ? (
         <>
           {articlesList.map((article) => (
-            <NewsItem
-              key={article.id}
-              title={article.title}
-              imageUrl={article.imageUrl}
-              newsSite={article.newsSite}
-              summary={article.summary}
-              publishedAt={article.publishedAt}
-            />
+            <NewsItem key={article.id} article={article} />
           ))}
           <LoadMoreButton
             handleCurrentPage={setCurrentPage}
