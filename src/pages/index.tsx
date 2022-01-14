@@ -81,7 +81,7 @@ export default function Home({ articles }: HomeProps) {
     if (orderParam) {
       setCurrentOrderParam(orderParam);
 
-      if (currentOrderParam && currentOrderParam !== orderParam) {
+      if (currentOrderParam !== orderParam) {
         setArticlesList([]);
       }
     }
